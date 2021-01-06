@@ -7,3 +7,23 @@ Deep learning, which is a specialized and advanced form of machine learning, per
 Three major drivers caused the breakthrough of (deep) neural networks: the availability of huge amounts of training data, powerful computational infrastructure, and advances in academia. Thereby deep learning systems start to outperform not only classical methods, but also human benchmarks in various tasks like image classification or face recognition. This creates the potential for many disruptive new businesses leveraging deep learning to solve real-world problems.
 
 Deep learning has enabled innovation and transformation across a broad range of industries. From anomaly detection to video analysis, businesses have been able to leverage artificial intelligence to gain competitive advantage and even change the way their markets approach the customer experience.
+
+## Concepts  
+Tensorflow + Keras
+Gradient descent
+Loss functions
+Learning rate
+Tensorflow playground
+Why Keras?
+Feed forward and back propagation
+Hidden layers
+Cross entropy
+Activation Functions
+Drop outs
+Optimizer functions
+Hyper parameters in Deep Learning
+Fully connected layer
+
+## Libraries  
+Tensorflow
+Keras
