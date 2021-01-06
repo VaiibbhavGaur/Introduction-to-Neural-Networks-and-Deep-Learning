@@ -1,0 +1,185 @@
+# Stock prices dataset
+The data is of tock exchange's stock listings for each trading day of 2010 to 2016.
+
+## Description
+A brief description of columns.
+- open: The opening market price of the equity symbol on the date
+- high: The highest market price of the equity symbol on the date
+- low: The lowest recorded market price of the equity symbol on the date
+- close: The closing recorded price of the equity symbol on the date
+- symbol: Symbol of the listed company
+- volume: Total traded volume of the equity symbol on the date
+- date: Date of record
+
+In this assignment, we will work on the stock prices dataset named "prices.csv". Task is to create a Neural Network to classify closing price for a stock based on some parameters.
+
+# Initialize the random number generator
+import random
+random.seed(0)
+
+# Ignore the warnings
+import warnings
+warnings.filterwarnings("ignore")
+
+### Load the data
+- load the csv file and read it using pandas
+- file name is prices.csv
+
+# run this cell to upload file using GUI if you are using google colab
+
+from google.colab import files
+files.upload()
+
+# run this cell to to mount the google drive if you are using google colab
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+import pandas as pd
+df = pd.read_csv('prices.csv')
+
+### Drop null
+- Drop null values if any
+
+df = df.dropna()
+
+### Drop columnns
+- Now, we don't need "date", "volume" and "symbol" column
+- drop "date", "volume" and "symbol" column from the data
+
+
+df = df.drop(['date', 'symbol', 'volume'], axis=1)
+
+
+### Print the dataframe
+- print the modified dataframe
+
+df.head()
+
+### Get features and label from the dataset in separate variable
+- Let's separate labels and features now. We are going to predict the value for "close" column so that will be our label. Our features will be "open", "low", "high"
+- Take "open" "low", "high" columns as features
+- Take "close" column as label
+
+X = df.drop('close', axis=1)
+y = df['close']
+
+### Create train and test sets
+- Split the data into training and testing
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state= 12)
+
+
+### Scaling
+- Scale the data (features only)
+- Use StandarScaler
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+
+### Convert data to NumPy array
+- Convert features and labels to numpy array
+
+import numpy as np
+# X_train = np.asarray(X_train)
+# X_test = np.asarray(X_test)
+
+y_train = np.array(y_train)
+y_test = np.array(y_test)
+
+### Reshape features
+- Reshape the features to make it suitable for input in the model 
+
+X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
+X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
+
+
+### Define Model
+- Initialize a Sequential model
+- Add a Flatten layer
+- Add a Dense layer with one neuron as output
+  - add 'linear' as activation function
+
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Flatten, Dense
+model = Sequential([
+                    Flatten(),
+                    Dense(1, activation='linear')
+])
+
+
+### Compile the model
+- Compile the model
+- Use "sgd" optimizer
+- for calculating loss, use mean squared error
+
+model.compile(optimizer='sgd', loss='mean_squared_error')
+
+
+
+### Fit the model
+- epochs: 50
+- batch size: 128
+- specify validation data
+
+model.fit(X_train, y_train, epochs=50, batch_size=128, validation_data=(X_test, y_test))
+
+
+### Evaluate the model
+- Evaluate the model on test data
+
+model.evaluate(X_test, y_test)
+
+### Manual predictions
+- Test the predictions on manual inputs
+- We have scaled out training data, so we need to transform our custom inputs using the object of the scaler
+- Example of manual input: [123.430000,	122.30999, 116.250000]
+
+model.predict(sc.transform([[123.430000,	122.30999, 116.250000]]))
+
+# Build a DNN
+
+### Collect Fashion mnist data from tf.keras.datasets 
+
+import tensorflow as tf
+(trainX, trainY),(testX, testY) = tf.keras.datasets.fashion_mnist.load_data()
+
+### Change train and test labels into one-hot vectors
+
+trainY = tf.keras.utils.to_categorical(trainY, num_classes=10)
+testY = tf.keras.utils.to_categorical(testY, num_classes=10)
+
+### Build the Graph
+
+### Initialize model, reshape & normalize data
+
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Reshape((784,),input_shape=(28,28,)))
+model.add(tf.keras.layers.BatchNormalization())
+
+### Add two fully connected layers with 200 and 100 neurons respectively with `relu` activations. Add a dropout layer with `p=0.25`
+
+#Hidden layers
+model.add(tf.keras.layers.Dense(200, activation='relu'))
+model.add(tf.keras.layers.Dense(100, activation='relu'))
+
+#Dropout layer
+model.add(tf.keras.layers.Dropout(0.25))
+
+### Add the output layer with a fully connected layer with 10 neurons with `softmax` activation. Use `categorical_crossentropy` loss and `adam` optimizer and train the network. And, report the final validation.
+
+#Output layer
+model.add(tf.keras.layers.Dense(10, activation='softmax'))
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+#Train the model
+model.fit(trainX,trainY,          
+          validation_data=(testX,testY),
+          epochs=5, batch_size=32)
+
