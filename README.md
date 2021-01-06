@@ -9,21 +9,21 @@ Three major drivers caused the breakthrough of (deep) neural networks: the avail
 Deep learning has enabled innovation and transformation across a broad range of industries. From anomaly detection to video analysis, businesses have been able to leverage artificial intelligence to gain competitive advantage and even change the way their markets approach the customer experience.
 
 ## Concepts  
-Tensorflow + Keras
-Gradient descent
-Loss functions
-Learning rate
-Tensorflow playground
-Why Keras?
-Feed forward and back propagation
-Hidden layers
-Cross entropy
-Activation Functions
-Drop outs
-Optimizer functions
-Hyper parameters in Deep Learning
-Fully connected layer
+- Tensorflow + Keras
+- Gradient descent
+- Loss functions
+- Learning rate
+- Tensorflow playground
+- Why Keras?
+- Feed forward and back propagation
+- Hidden layers
+- Cross entropy
+- Activation Functions
+- Drop outs
+- Optimizer functions
+- Hyper parameters in Deep Learning
+- Fully connected layer
 
 ## Libraries  
-Tensorflow
-Keras
+- Tensorflow
+- Keras
